@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Simon Game</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Coda|Fredoka+One|Concert+One|Quicksand:500" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="very-specific-design">
+    <div class="main-block">
+        <div class="score-row">
+            <span class="score-box">
+                Score: <span id="score" class="score-number">0</span>
+            </span>
+            <span class="status">Correct!</span>
+        </div>
+        <div class="game-panel">
+            <div class="first-row">
+                <button id="0" class="button-pop1 btn-pop1 btn-pop"></button>
+                <button id="1" class="button-pop2 btn-pop2 btn-pop"></button>
+            </div>
+            <div class="space"></div>
+            <div class="second-row">
+                <button id="2" class="button-pop3 btn-pop3 btn-pop"></button>
+                <button id="3" class="button-pop4 btn-pop4 btn-pop"></button>
+            </div>
+        </div>
+        <div class="bot-block">
+            <button id="start" style="margin-right: 10px" class="ghost-button">Start</button>
+            <button id="reset" class="ghost-button">Restart</button>
+        </div>
+    </div>
+</div>
+<audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
+<audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
+<audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
+<audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
+<audio id="error" src="http://soundbible.com/mp3/Buzz-SoundBible.com-1790490578.mp3"></audio>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    const buttons = document.querySelectorAll('.btn-pop');
+    let start = document.querySelector('#start');
+    let x = document.querySelectorAll('.audio');
+    const scoreField = document.querySelector('#score');
+    const status = document.querySelector('.status');
+    let audio = Array.from(x);
+    let moves = [];
+    let score = -1;
+    let delay = 400;
+    let movesDelay = 1250;
+    let playing = false;
+    let gameStarted = false;
+    let playerMoves = [];
+    let answer = true; // checks if pressed buttons are in a same sequance with required moves
+    let result = 'not correct';
+    buttons.forEach(e => e.addEventListener('click', playSound));
+
+    start.onclick = () => {
+        if (!gameStarted){
+            //gameStarted = true;
+            setTimeout(() =>{
+                startGame();
+            },900);
+        }
+    };
+
+    function playSound() {
+        if (!playing) {
+            playerMoves.push(Number(this.getAttribute('id')));
+            audio[this.getAttribute('id')].play();
+            setTimeout(() => {
+                audio[this.getAttribute('id')].pause();
+                audio[this.getAttribute('id')].currentTime = 0;
+            }, delay);
+        }
+    }
+    function startGame() {
+        if (!playing){
+            result = 'not correct';
+            playing = true;
+            score++;
+            changeScore();
+            disableButtons();
+            getNewMoves();
+            playMoves(); // here buttons are enabled
+            setTimeout(() => {
+                playerStart();
+            },movesDelay*(moves.length));
+        }
+        return null;
+    }
+    function getNewMoves() {
+        for (let i = 0; i < 1; i++) {
+            random = Math.floor(Math.random() * (4));
+            moves.push(random);
+        }
+    }
+    function playMoves() {
+        moves.map((el,ind)=>{
+            if(el === 0){
+                setTimeout(() => {playFirst()},movesDelay*ind);
+            }
+            if(el === 1){
+                setTimeout(() => {playSecond()},movesDelay*ind);
+            }
+            if(el === 2){
+                setTimeout(() => {playThird()},movesDelay*ind);
+            }
+            if(el === 3){
+                setTimeout(() => {playForth()},movesDelay*ind);
+            }
+            setTimeout(() => {
+                playing = false;
+                enableButtons();
+            },movesDelay*(moves.length));
+        });
+    }
+
+    function playFirst() {
+        audio[0].play();
+        setTimeout(() => {
+            audio[0].pause();
+            audio[0].currentTime = 0;
+        },delay);
+        $(buttons[0]).toggleClass("btn1");
+        setTimeout(() => {
+            $(buttons[0]).removeClass("btn1");
+        },delay);
+    }
+    function playSecond() {
+        audio[1].play();
+        setTimeout(() => {
+            audio[1].pause();
+            audio[1].currentTime = 0;
+        },delay);
+        $(buttons[1]).toggleClass("btn2");
+        setTimeout(() => {
+            $(buttons[1]).removeClass("btn2");
+        },delay);
+    }
+    function playThird() {
+        audio[2].play();
+        setTimeout(() => {
+            audio[2].pause();
+            audio[2].currentTime = 0;
+        },delay);
+        $(buttons[2]).toggleClass("btn3");
+        setTimeout(() => {
+            $(buttons[2]).removeClass("btn3");
+        },delay);
+    }
+    function playForth() {
+        audio[3].play();
+        setTimeout(() => {
+            audio[3].pause();
+            audio[3].currentTime = 0;
+        },delay);
+        $(buttons[3]).toggleClass("btn4");
+        setTimeout(() => {
+            $(buttons[3]).removeClass("btn4");
+        },delay);
+    }
+    function disableButtons() {
+        $(buttons[0]).removeClass("btn-pop1");
+        $(buttons[1]).removeClass("btn-pop2");
+        $(buttons[2]).removeClass("btn-pop3");
+        $(buttons[3]).removeClass("btn-pop4");
+    }
+    function enableButtons() {
+        $(buttons[0]).addClass("btn-pop1");
+        $(buttons[1]).addClass("btn-pop2");
+        $(buttons[2]).addClass("btn-pop3");
+        $(buttons[3]).addClass("btn-pop4");
+    }
+    function changeScore() {
+        scoreField.innerHTML = score;
+    }
+    function playerStart() {
+        if(answer) {//we want it to match
+            checkSimilar();
+            setTimeout(playerStart, 50);//wait 50 millisecnds then recheck
+            return;
+        }
+        answer = true;
+        if(result === 'correct'){
+            status.innerHTML = 'Correct!';
+            status.style.color = '#1BFF00';
+            status.style.opacity = 1;
+            setTimeout(() => {
+                status.style.opacity = 0;
+            },2500);
+            setTimeout(() => {
+                clearValues();
+                startGame();
+            },2000);
+        }
+        if(result === 'mistake'){
+            status.innerHTML = 'Incorrect!';
+            status.style.color = '#d80024';
+            status.style.opacity = 1;
+            setTimeout(() => {
+                status.style.opacity = 0;
+            },2500);
+        }
+    }
+    function checkSimilar() {
+        match = playerMoves.every((elm,index) => {
+            return elm === moves[index];
+        });
+        if (match === true && moves.length === playerMoves.length){
+            answer = false;
+            result = 'correct';
+        }
+        if (match === false && moves.length === playerMoves.length){
+            answer = false;
+            result = 'mistake';
+        }
+    }
+    function clearValues() {
+        playerMoves = [];
+    }
+</script>
+</body>
+</html>

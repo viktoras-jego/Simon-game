@@ -1,0 +1,214 @@
+:root{
+    --button-x-margin: 5px;
+    --button-y-margin: 13px;
+    --padding-bot: 31px;
+    --panel-color: black;
+    --panel-width: 70%;
+    --panel-padding: 7px;
+    --background-color: #5d7eaf;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body{
+    height: 100%;
+    min-height: 100vh;
+    z-index: -2;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+}
+.main-block{
+    display: flex;
+    flex-direction: column;
+    border: 2px black solid;
+    width: 400px;
+    height: 500px;
+    position: relative;
+    background-color: var(--background-color);
+}
+.very-specific-design {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    margin-top: 100px;
+    padding-top: 20px;
+}
+.btn-pop{
+    height: 100%;
+    width: 46%;
+    border: none;
+}
+.game-panel{
+    border-radius: 10px;
+    background-color: var(--panel-color);
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    height: 250px;
+    padding-bottom: var(--padding-bot);
+    width: 260px;
+    padding-top: var(--panel-padding);
+    padding-left: var(--panel-padding);
+    padding-right: var(--panel-padding);
+}
+.btn-pop1, .btn-pop2, .btn-pop3, .btn-pop4{
+
+}
+.button-pop1 {
+    background-color: #009e4d;
+    border-radius: 100% 0 0 0;
+    box-shadow: 0 10px #006f31;
+    z-index: 0;
+}
+
+.btn-pop1:hover {
+    background-color: #00cb60
+}
+
+.btn-pop1:active{
+    background-color: #00cb60;
+    box-shadow: 0 5px #006f31;
+    transform: translateY(5px);
+}
+.btn1{
+    background-color: #00cb60;
+    box-shadow: 0 5px #006f31;
+    transform: translateY(5px);
+}
+.button-pop2 {
+    background-color: #ea1c24;
+    border-radius: 0 100% 0 0;
+    box-shadow: 0 10px #8d1418;
+    z-index: 0;
+}
+
+.btn-pop2:hover {
+    background-color: #ff4f48;
+}
+
+.btn-pop2:active{
+    background-color: #ff4f48;
+    box-shadow: 0 5px #8d1418;
+    transform: translateY(5px);
+}
+.btn2{
+    background-color: #ff4f48;
+    box-shadow: 0 5px #8d1418;
+    transform: translateY(5px);
+}
+.button-pop3 {
+    background-color: #fdda00;
+    border-radius: 0 0 0 100%;
+    box-shadow: 0 10px #b79900;
+    z-index: 3;
+}
+
+.btn-pop3:hover {
+    background-color: #fdfb4f;
+}
+
+.btn-pop3:active{
+    background-color: #fdfb4f;
+    box-shadow: 0 5px #b79900;
+    transform: translateY(5px);
+}
+.btn3{
+    background-color: #fdfb4f;
+    box-shadow: 0 5px #b79900;
+    transform: translateY(5px);
+}
+.button-pop4 {
+    background-color: #0093e8;
+    border-radius: 0 0 100% 0;
+    box-shadow: 0 10px #005e96;
+    z-index: 3;
+}
+
+.btn-pop4:hover {
+    background-color: #13c0ff;
+}
+
+.btn-pop4:active{
+    background-color: #13c0ff;
+    box-shadow: 0 5px #005e96;
+    transform: translateY(5px);
+}
+.btn4{
+    background-color: #13c0ff;
+    box-shadow: 0 5px #005e96;
+    transform: translateY(5px);
+}
+.first-row, .second-row{
+    height: 50%;
+    width: 100%;
+}
+.space{
+height: var(--button-y-margin);
+}
+.bot-block{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+}
+.ghost-button {
+    background-color: var(--background-color);
+    color: whitesmoke;
+    border: solid whitesmoke 2px;
+    font-size: 22px;
+    padding: 7px 12px;
+    font-weight: 400;
+    margin: 6px 0;
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    width: 120px;
+    margin-bottom: 40px;
+}
+.ghost-button:hover{
+    background-color: #7295ce;
+}
+.ghost-button:active{
+    background-color: #5d7eaf;
+}
+.score-row{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 20px;
+}
+.score-box{
+    color: #ffffff;
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: transparent;
+    width: 120px;
+}
+.score-number{
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+}
+.status{
+    margin-top: 5px;
+    font-size: 22px;
+    font-weight: 500;
+    background-color: transparent;
+    opacity: 0;
+    color: #1BFF00;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+}
+
