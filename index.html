@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <title>Simon Game</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
-    <link href="https://fonts.googleapis.com/css?family=Coda|Fredoka+One|Concert+One|Quicksand:500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda|Fredoka+One|Concert+One|Quicksand:500|Comfortaa" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="title-area">
+    <span>
+    Simon Game
+</span>
+</div>
 <div class="very-specific-design">
     <div class="main-block">
         <div class="score-row">
@@ -28,16 +33,18 @@
             </div>
         </div>
         <div class="bot-block">
-            <button id="start" style="margin-right: 10px" class="ghost-button">Start</button>
-            <button id="reset" class="ghost-button">Restart</button>
+            <button id="start"  class="ghost-button">New Game</button>
         </div>
     </div>
+
+</div>
+<div style="text-align: center; margin-top: 50px">
+    <span class="trademark">© This project is made by <a href="https://github.com/vza100" target="_blank"><span class="name">Viktoras Jegorovas</span></a></span>
 </div>
 <audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
 <audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
 <audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
 <audio class="audio" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
-<audio id="error" src="http://soundbible.com/mp3/Buzz-SoundBible.com-1790490578.mp3"></audio>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -48,7 +55,7 @@
     const status = document.querySelector('.status');
     let audio = Array.from(x);
     let moves = [];
-    let score = -1;
+    let score = 0;
     let delay = 400;
     let movesDelay = 1250;
     let playing = false;
@@ -60,7 +67,11 @@
 
     start.onclick = () => {
         if (!gameStarted){
-            //gameStarted = true;
+            score = 0;
+            changeScore();
+            moves = [];
+            playerMoves = [];
+            gameStarted = true;
             setTimeout(() =>{
                 startGame();
             },900);
@@ -79,10 +90,9 @@
     }
     function startGame() {
         if (!playing){
+            playerMoves = [];
             result = 'not correct';
             playing = true;
-            score++;
-            changeScore();
             disableButtons();
             getNewMoves();
             playMoves(); // here buttons are enabled
@@ -189,9 +199,11 @@
             status.innerHTML = 'Correct!';
             status.style.color = '#1BFF00';
             status.style.opacity = 1;
+            score++;
+            changeScore();
             setTimeout(() => {
                 status.style.opacity = 0;
-            },2500);
+            },1500);
             setTimeout(() => {
                 clearValues();
                 startGame();
@@ -199,11 +211,12 @@
         }
         if(result === 'mistake'){
             status.innerHTML = 'Incorrect!';
-            status.style.color = '#d80024';
+            status.style.color = '#f40025';
             status.style.opacity = 1;
             setTimeout(() => {
                 status.style.opacity = 0;
-            },2500);
+                gameStarted = false;
+            },1500);
         }
     }
     function checkSimilar() {
@@ -214,7 +227,7 @@
             answer = false;
             result = 'correct';
         }
-        if (match === false && moves.length === playerMoves.length){
+        if (match === false && moves.length !== 0){
             answer = false;
             result = 'mistake';
         }
